@@ -16,7 +16,7 @@
    npm install
    ```
 
-3. Use secure online tools like [https://passwordsgenerator.net/](Password Generator) or other random string generators to create a secret key for JWT.
+3. Use secure online tools like [Password Generator](https://passwordsgenerator.net/) or other random string generators to create a secret key for JWT.
 
 4. Create an `.env` file and add your secret key
    ```js
