@@ -25,10 +25,37 @@
 }
 
 .chat-message {
+    display: flex;
+    align-items: flex-start;
     margin-bottom: 10px;
-    padding: 10px;
-    border-radius: 5px;
-    background-color: #e9e9e9;
+}
+
+.chat-message .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.message-content {
+    max-width: 80%;
+}
+
+.message-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.message-header .username {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.message-header .timestamp {
+    font-size: 0.8rem;
+    color: #888;
 }
 
 .chat-input {

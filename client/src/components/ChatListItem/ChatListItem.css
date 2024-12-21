@@ -8,14 +8,18 @@
     transition: background-color 0.3s;
 }
 
+.active {
+    background-color: #d7d5d5;
+}
+
 .chat:hover {
     background-color: #e9e9e9;
 }
 
 .chat img {
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     margin-right: 10px;
 }
 
@@ -29,7 +33,11 @@
     margin-bottom: 5px;
 }
 
-.chat .chat-info .chat-last-message {
+.chat .chat-info .last-message {
     color: #888;
     font-size: 0.9rem;
+}
+
+.chat .chat-info .last-message-sender {
+    font-weight: bold;
 }

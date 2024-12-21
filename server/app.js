@@ -6,14 +6,15 @@ require("./config")(app);
 
 const jwt = require("jsonwebtoken");
 const { isAuthenticated } = require("./jwt.middleware");
+const { db } = require("./config/jsondb.config");
 
 app.post('/login', async (req, res, next) => {
     const { email, password } = req.body;
 
     try {
         // Check the database if a user with the provided credentials exists
-        const database = require("./database");
-        const foundUser = database.users.find((user) => user.email === email && user.password === password);
+        const users = await db.getData('/users');
+        const foundUser = users.find((user) => user.email === email && user.password === password);
             
         if (!foundUser) {
           // If the user is not found, send an error response
@@ -22,7 +23,7 @@ app.post('/login', async (req, res, next) => {
         }
 
         // Create an object that will be set as the token payload, ommitting the password
-        const payload = {username: foundUser.username, email: foundUser.email};
+        const payload = {...foundUser, password: undefined};
 
         // Create a JSON Web Token and sign it
         const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {

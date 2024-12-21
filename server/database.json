@@ -1,10 +1,28 @@
 {
     "users": [
         {
-            "id": 1,
-            "username": "Amir Vaknin",
+            "id": "25ae2316-5a82-49c4-9dcb-53327f5a5b48",
+            "username": "Amir",
             "email": "amir6661@gmail.com",
             "password": "12345678"
+        },
+        {
+            "id": "a57b9ba0-317c-4e58-b328-3ef193865402",
+            "username": "Anna",
+            "email": "anna.mockemail@gmail.com",
+            "password": "12345678"
+        },
+        {
+            "id": "825aba8c-2a8a-4913-a9c7-1df2d550e995",
+            "username": "Ivan",
+            "email": "ivan.mockemail@gmail.com",
+            "password": "12345678"
         }
+    ],
+    "chats": [
+
+    ],
+    "messages": [
+
     ]
 }
