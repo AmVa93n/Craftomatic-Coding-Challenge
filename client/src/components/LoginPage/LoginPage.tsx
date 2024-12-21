@@ -5,7 +5,7 @@ import { AuthContext } from "../../context/auth.context";
 import { AxiosError } from "axios";
 
 export default function LoginPage() {
-    const { authenticateUser, user, logOutUser } = useContext(AuthContext); // get the authenticateUser function from the AuthContext
+    const { authenticateUser, user, logOutUser } = useContext(AuthContext);
     const [loginForm, setLoginForm] = useState({ // state to store the login form data
         email: '',
         password: ''
