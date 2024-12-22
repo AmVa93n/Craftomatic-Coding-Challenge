@@ -43,7 +43,8 @@
 
 .message-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: start;
+    gap: 3px;
     align-items: center;
     margin-bottom: 5px;
 }
@@ -63,6 +64,7 @@
     padding: 10px;
     border-top: 1px solid #ccc;
     background-color: #f1f1f1;
+    position: relative;
 }
 
 .chat-input input {
@@ -84,4 +86,10 @@
 
 .chat-input button:hover {
     background-color: #0056b3;
+}
+
+.emoji-picker {
+    position: absolute;
+    bottom: 60px;
+    right: 10px;
 }

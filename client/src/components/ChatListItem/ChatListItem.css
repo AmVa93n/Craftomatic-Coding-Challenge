@@ -26,6 +26,8 @@
 .chat .chat-info {
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
+    max-width: calc(100% - 60px);
 }
 
 .chat .chat-info .chat-name {
@@ -33,11 +35,21 @@
     margin-bottom: 5px;
 }
 
-.chat .chat-info .last-message {
+.last-message {
     color: #888;
     font-size: 0.9rem;
+    display: flex;
+    max-width: 100%;
 }
 
-.chat .chat-info .last-message-sender {
+.last-message .sender {
     font-weight: bold;
+    margin-right: 5px;
+}
+
+.last-message .text {
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

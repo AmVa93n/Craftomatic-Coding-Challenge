@@ -8,6 +8,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1000;
 }
 
 .modal-content {
@@ -64,6 +65,18 @@
     height: 40px;
     border-radius: 50%;
     margin-right: 10px;
+}
+
+.modal-msg {
+    display: flex;
+    justify-content: center;
+}
+
+.modal-msg input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    flex: 1;
 }
 
 .modal-buttons {

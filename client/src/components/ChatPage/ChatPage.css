@@ -53,6 +53,12 @@ button:hover {
     background-color: #0056b3;
 }
 
+button:disabled {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+}
+
 .chat-window-container {
     display: flex;
     justify-content: center;

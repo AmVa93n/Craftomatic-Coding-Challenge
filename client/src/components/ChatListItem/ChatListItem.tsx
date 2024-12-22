@@ -10,7 +10,7 @@ interface Props {
 }
 
 export default function ChatListItem({ participants, active, onClick, lastMessage }: Props) {
-    const { castIdToUser } = useSocket();
+    const { castIdToUser, formatTimestamp } = useSocket();
 
     return (
         <div className={`chat ${active ? 'active' : ''}`} onClick={onClick}>
@@ -22,8 +22,9 @@ export default function ChatListItem({ participants, active, onClick, lastMessag
                 <span className="chat-name">{participants}</span>
                 {lastMessage && 
                     <span className="last-message">
-                        <span className="last-message-sender">{castIdToUser(lastMessage.sender)?.username || 'You'}: </span>
-                        <span>{lastMessage.text}</span>
+                        <span className="sender">{castIdToUser(lastMessage.sender)?.username || 'You'}:</span>
+                        <span className='text'>{lastMessage.text}</span>
+                        <span className='timestamp'>{formatTimestamp(lastMessage.timestamp)}</span>
                     </span>
                 }
             </div>

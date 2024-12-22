@@ -1,20 +1,22 @@
 import './ChatWindow.css';
-import { Chat, Message } from '../../types';
+import { Chat } from '../../types';
 import { useState, useEffect, useRef } from 'react';
 import useSocket from '../../hooks/useSocket'
 import useAuth from '../../hooks/useAuth';
+import data, { Skin } from '@emoji-mart/data'
+import Picker from '@emoji-mart/react'
 
 interface Props {
     chat: Chat
-    messages: Message[];
     participants: string;
 }
 
-export default function ChatWindow({ chat, messages, participants }: Props) {
-    const [messageText, setMessageText] = useState('');
-    const { socket, castIdToUser } = useSocket();
+export default function ChatWindow({ chat, participants }: Props) {
+    const [messageText, setMessageText] = useState(''); // State to store the message input
+    const { socket, castIdToUser, formatTimestamp } = useSocket();
     const { user } = useAuth();
-    const chatContainerRef = useRef<HTMLDivElement>(null);
+    const chatContainerRef = useRef<HTMLDivElement>(null); // Ref to the chat container div
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false); // State to control the visibility of the emoji picker
 
     function handleSend() {
         if (!messageText.trim()) return; // Check if the message is not empty
@@ -32,12 +34,7 @@ export default function ChatWindow({ chat, messages, participants }: Props) {
         if (chatContainerRef.current) {
         chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
         }
-    }, [messages]);
-
-    function formatTime(timestamp: string) {
-        const date = new Date(timestamp);
-        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    };
+    }, [chat.messages]);
 
     return (
         <div className="chat-window">
@@ -45,7 +42,7 @@ export default function ChatWindow({ chat, messages, participants }: Props) {
                 <h2>Chat with {participants}</h2>
             </div>
             <div className="chat-messages" ref={chatContainerRef}>
-                {messages.map((message, index) => (
+                {chat.messages.map((message, index) => (
                     <div key={index} className="chat-message">
                         <img 
                             src={castIdToUser(message.sender)?.image || '/default-avatar.png'} 
@@ -55,7 +52,7 @@ export default function ChatWindow({ chat, messages, participants }: Props) {
                         <div className="message-content">
                             <div className="message-header">
                                 <span className="username">{castIdToUser(message.sender)?.username || 'You'}</span>
-                                <span className="timestamp">{formatTime(message.timestamp)}</span>
+                                <span className="timestamp">{formatTimestamp(message.timestamp)}</span>
                             </div>
                             <p>{message.text}</p>
                         </div>
@@ -64,7 +61,16 @@ export default function ChatWindow({ chat, messages, participants }: Props) {
             </div>
             <div className="chat-input">
                 <input type="text" placeholder="Type a message..." value={messageText} onChange={(e) => setMessageText(e.target.value)} />
+                <button onClick={() => setShowEmojiPicker(!showEmojiPicker)}>😊</button>
                 <button onClick={handleSend}>Send</button>
+                {showEmojiPicker && (
+                    <div className='emoji-picker'>
+                        <Picker 
+                            data={data} 
+                            onEmojiSelect={(emoji: Skin) => setMessageText(messageText + emoji.native)} 
+                        />
+                    </div>
+                )}
             </div>
         </div>
     );

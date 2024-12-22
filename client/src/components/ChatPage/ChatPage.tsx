@@ -10,56 +10,60 @@ import UserSelectionModal from '../UserSelectionModal/UserSelectionModal';
 export default function ChatPage() {
     const [chats, setChats] = useState<Chat[]>([]); // state to store the chats the user is part of
     const [activeChat, setActiveChat] = useState<Chat | null>(null); // state to store the currently active chat
-    const [messages, setMessages] = useState<Message[]>([]); // state to store the messages of the active chat
     const [isModalOpen, setIsModalOpen] = useState(false); // state to control the visibility of the UserSelectionModal
     const { socket, castIdToUser } = useSocket();
     const { user } = useAuth();
 
     useEffect(() => {
+        // Request permission to show notifications
+        if (Notification.permission === 'default') {
+            Notification.requestPermission();
+        }
+
         if (!socket) return;
         
-        socket.on('getChats', (chats: Chat[]) => { // listen for the getChats event and update the chats state
-            setChats(chats);
+        // listen for the getChats event (sent by the server when the user goes online)
+        socket.on('getChats', (chats: Chat[]) => { 
+            setChats(chats); // Update the chats state
             if (chats.length > 0) setActiveChat(chats[0]); // Set the first chat as the active chat by default, if there are any chats
         });
 
-        socket.on('getMessages', (messages: Message[]) => { // listen for the getMessages event and update the messages state
-            setMessages(messages);
-        });
-
-        socket.on('newChat', (chat: Chat) => { // listen for the newChat event
-            setChats((prevChats) => // Add the new chat to the chats state if it doesn't already exist
-                (prevChats.some((existingChat) => existingChat.id === chat.id)) ? prevChats : [...prevChats, chat]
+        // listen for the newChat event (sent by the server when a new chat is created with the user as a participant)
+        socket.on('newChat', (newChat: Chat) => { 
+            setChats((prevChats) => // Add to the chats state if it doesn't already exist
+                (prevChats.some((existingChat) => existingChat.id === newChat.id)) ? prevChats : [newChat, ...prevChats]
             );
-            setActiveChat(chat);
+            if (newChat.participants[0] === user?.id) {
+                setActiveChat(newChat); // set as active chat if the user started the chat
+            } 
         });
 
-        socket.on('newMessage', (message: Message) => { // listen for the newMessage event
-            if (message.chatId === activeChat?.id) { // Add the new message to the messages state if it belongs to the active chat
-                setMessages((prevMessages) => [...prevMessages, message]);
-            }
-             // Update the lastMessage of the chat in the chats state
-            setChats((prevChats) => prevChats.map((chat) => {
-                if (chat.id === message.chatId) {
-                    return { ...chat, lastMessage: message };
-                }
-                return chat;
+        // listen for the newMessage event (sent by the server when a new message is sent in any chat)
+        socket.on('newMessage', (newMsg: Message) => { 
+            setChats((prevChats) => prevChats.map((chat) => { // update the chats state with the new message
+                return chat.id === newMsg.chatId ? { ...chat, messages: [...chat.messages, newMsg] } : chat;
             }));
+            setActiveChat((prevChat) => // If the active chat is the one that received the new message, update the active chat state
+                prevChat?.id === newMsg.chatId ? { ...prevChat, messages: [...prevChat.messages, newMsg] } : prevChat
+            );
+            // Trigger a browser notification if the tab is not active
+            if (document.hidden && Notification.permission === 'granted') {
+                const sender = castIdToUser(newMsg.sender)?.username || 'Someone';
+                new Notification('New Message', {
+                    body: `${sender}: ${newMsg.text}`,
+                    icon: castIdToUser(newMsg.sender)?.image || '/default-avatar.png'
+                });
+                console.log('Creating notification for new message from:', sender);
+            }
         });
 
         return () => { // Clean up the event listeners when the component unmounts
             socket.off('getChats');
-            socket.off('getMessages');
             socket.off('newChat');
             socket.off('newMessage');
         };
         
     }, [socket, user]);
-
-    useEffect(() => {
-        if (!socket) return;
-        if (activeChat) socket.emit('joinChat', activeChat.id); // Join the active chat whenever it changes
-    }, [socket, activeChat]);
 
     // Helper function to get the list of names of the participants in a chat
     function getParticipants(chat: Chat) { 
@@ -70,6 +74,13 @@ export default function ChatPage() {
         return jointString
     };
 
+    // Helper function to sort the chats based on the timestamp of the last message
+    function sortChats(a: Chat, b: Chat) {
+        const a_timestamp = a.messages?.length > 0 ? new Date(a.messages[a.messages.length - 1].timestamp).getTime() : Infinity;
+        const b_timestamp = b.messages?.length > 0 ? new Date(b.messages[b.messages.length - 1].timestamp).getTime() : Infinity;
+        return b_timestamp - a_timestamp;
+    }
+
     return (
         <div className="chat-page">
             <div className='chat-list-container'>
@@ -78,15 +89,15 @@ export default function ChatPage() {
                 </div>
 
                 <div className="chat-list">
-                    {chats.map((chat) => (
+                    {chats.sort(sortChats).map((chat) => (
                         // Display the chat only if it has messages or if the user started it
-                        (chat.lastMessage || chat.participants[0] === user?.id) && 
+                        (chat.messages.length > 0 || chat.participants[0] === user?.id) && 
                         <ChatListItem 
                             key={chat.id} 
                             participants={getParticipants(chat)} 
                             active={chat.id === activeChat?.id} 
                             onClick={() => setActiveChat(chat)} 
-                            lastMessage={chat.lastMessage}
+                            lastMessage={chat.messages[chat.messages.length - 1]}
                         />
                     ))}
                 </div>
@@ -106,8 +117,7 @@ export default function ChatPage() {
             <div className='chat-window-container'>
                 {activeChat ?
                     <ChatWindow 
-                        chat={activeChat} 
-                        messages={messages} 
+                        chat={activeChat}
                         participants={getParticipants(activeChat)}
                     />
                 :

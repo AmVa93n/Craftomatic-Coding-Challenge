@@ -9,6 +9,7 @@ interface Props {
 
 export default function UserSelectionModal({ onClose }: Props) {
     const [selectedUsers, setSelectedUsers] = useState<string[]>([]); // state to store the selected users for the new chat
+    const [messageText, setMessageText] = useState(''); // State to store the message input
     const { socket, contacts } = useSocket();
     const { user } = useAuth();
 
@@ -20,7 +21,7 @@ export default function UserSelectionModal({ onClose }: Props) {
 
     function handleSubmit() {
         const participants = [user?.id, ...selectedUsers]; // Include the current user in the chat
-        socket?.emit('chat', participants); // Emit the 'chat' event with the selected participants
+        socket?.emit('chat', participants, messageText); // Emit the 'chat' event with the selected participants and message text
         onClose();
     }
 
@@ -47,8 +48,21 @@ export default function UserSelectionModal({ onClose }: Props) {
                         </div>
                     ))}
                 </div>
+                <div className='modal-msg'>
+                    <input 
+                        type="text" 
+                        placeholder="Type a message..." 
+                        value={messageText} onChange={(e) => 
+                        setMessageText(e.target.value)} 
+                    />
+                </div>
                 <div className='modal-buttons'>
-                    <button onClick={handleSubmit}>Start Chat</button>
+                    <button 
+                        onClick={handleSubmit}
+                        disabled={selectedUsers.length === 0 || messageText.trim() === ''}
+                    >
+                        Start Chat
+                    </button>
                     <button onClick={onClose}>Cancel</button>
                 </div>
             </div>

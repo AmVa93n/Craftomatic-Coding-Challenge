@@ -20,9 +20,36 @@
         }
     ],
     "chats": [
-
+        {
+            "id": "de5beda2-0872-4131-ad76-3921ee7f53f3",
+            "participants": [
+                "25ae2316-5a82-49c4-9dcb-53327f5a5b48",
+                "a57b9ba0-317c-4e58-b328-3ef193865402"
+            ]
+        },
+        {
+            "id": "0482d46b-ba38-46dc-b59c-8428c9094b97",
+            "participants": [
+                "25ae2316-5a82-49c4-9dcb-53327f5a5b48",
+                "a57b9ba0-317c-4e58-b328-3ef193865402",
+                "825aba8c-2a8a-4913-a9c7-1df2d550e995"
+            ]
+        }
     ],
     "messages": [
-
+        {
+            "id": "d6a9c4b2-5b0e-4f82-a6f3-2b61613f4897",
+            "sender": "25ae2316-5a82-49c4-9dcb-53327f5a5b48",
+            "text": "hello",
+            "chatId": "de5beda2-0872-4131-ad76-3921ee7f53f3",
+            "timestamp": "2024-12-22T16:38:51.845Z"
+        },
+        {
+            "id": "0383ef62-4ed4-48bc-b8b2-e940ca94ee9d",
+            "sender": "25ae2316-5a82-49c4-9dcb-53327f5a5b48",
+            "text": "hi guys",
+            "chatId": "0482d46b-ba38-46dc-b59c-8428c9094b97",
+            "timestamp": "2024-12-22T16:39:07.546Z"
+        }
     ]
 }

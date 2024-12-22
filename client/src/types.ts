@@ -17,5 +17,5 @@ export interface Message {
 export interface Chat {
     id: string
     participants: string[]
-    lastMessage: Message
+    messages: Message[]
 }
