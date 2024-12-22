@@ -5,17 +5,16 @@ import { AuthContext } from "../../context/auth.context";
 import { AxiosError } from "axios";
 
 export default function LoginPage() {
-    const { authenticateUser, user, logOutUser } = useContext(AuthContext);
+    const { authenticateUser } = useContext(AuthContext);
     const [loginForm, setLoginForm] = useState({ // state to store the login form data
         email: '',
         password: ''
     })
 
     function handleChange(event: React.ChangeEvent) {
-        const field = (event.target as HTMLInputElement).name // get the name of the input field
-        const value = (event.target as HTMLInputElement).value // get the value of the input field
+        const { name, value } = event.target as HTMLInputElement; // get the name and value of the input field
         setLoginForm(prev => { // update the state with the new value
-            return {...prev, [field]: value}
+            return {...prev, [name]: value}
         })
     }
 
@@ -37,30 +36,34 @@ export default function LoginPage() {
     };
 
     return (
-        <div>
-            <h1>Login</h1>
-            {!user && <form>
-                <div className="form-group">
-                    <label htmlFor="email">Email:</label>
-                    <input type="email" name="email" value={loginForm.email} onChange={handleChange} />
-                </div>
-                
-                <div className="form-group">
-                    <label htmlFor="password">Password:</label>
-                    <input type="password" name="password" value={loginForm.password} onChange={handleChange}/>
-                </div>
-                
-                <button type="submit" onClick={handleSubmit}>Login</button>
-            </form>}
-
-            {user && <button onClick={logOutUser}>Logout</button>}
-
-            <div className="login-feedback" style={{backgroundColor: user ? 'lightgreen' : 'pink'}}>
-                {user ?
-                    <p>You are currently logged in as {user.username} with the email address {user.email}</p>
-                    :
-                    <p>You are currently not logged in</p>
-                }
+        <div className="login-page">
+            <div className="login-container">
+                <h2>Login</h2>
+                <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <label htmlFor="email">Email</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            value={loginForm.email}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="password">Password</label>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            value={loginForm.password}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <button type="submit" className="login-button">Login</button>
+                </form>
             </div>
         </div>
     )

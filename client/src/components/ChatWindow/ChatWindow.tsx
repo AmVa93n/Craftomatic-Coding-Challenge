@@ -61,7 +61,7 @@ export default function ChatWindow({ chat, participants }: Props) {
             </div>
             <div className="chat-input">
                 <input type="text" placeholder="Type a message..." value={messageText} onChange={(e) => setMessageText(e.target.value)} />
-                <button onClick={() => setShowEmojiPicker(!showEmojiPicker)}>😊</button>
+                <button className='emoji-button' onClick={() => setShowEmojiPicker(!showEmojiPicker)}>😊</button>
                 <button onClick={handleSend}>Send</button>
                 {showEmojiPicker && (
                     <div className='emoji-picker'>

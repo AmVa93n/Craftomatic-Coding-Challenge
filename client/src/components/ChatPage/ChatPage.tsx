@@ -4,14 +4,12 @@ import ChatWindow from '../ChatWindow/ChatWindow';
 import { Message, Chat } from '../../types';
 import useSocket from '../../hooks/useSocket';
 import useAuth from '../../hooks/useAuth';
-import ChatListItem from '../ChatListItem/ChatListItem';
-import UserSelectionModal from '../UserSelectionModal/UserSelectionModal';
+import ChatList from '../ChatList/ChatList';
 
 export default function ChatPage() {
     const [chats, setChats] = useState<Chat[]>([]); // state to store the chats the user is part of
     const [activeChat, setActiveChat] = useState<Chat | null>(null); // state to store the currently active chat
-    const [isModalOpen, setIsModalOpen] = useState(false); // state to control the visibility of the UserSelectionModal
-    const { socket, castIdToUser } = useSocket();
+    const { socket, castIdToUser, getParticipants } = useSocket();
     const { user } = useAuth();
 
     useEffect(() => {
@@ -65,53 +63,14 @@ export default function ChatPage() {
         
     }, [socket, user]);
 
-    // Helper function to get the list of names of the participants in a chat
-    function getParticipants(chat: Chat) { 
-        if (!chat) return ''; // Return an empty string if the chat is not provided
-        const participantIds = chat.participants.filter((id) => id !== user?.id); // Filter out the current user's id
-        const participants = participantIds.map((id) => castIdToUser(id)); // cast the participant ID's to user objects
-        const jointString = participants.map((user) => user?.username).join(', '); // Join the usernames of the participants
-        return jointString
-    };
-
-    // Helper function to sort the chats based on the timestamp of the last message
-    function sortChats(a: Chat, b: Chat) {
-        const a_timestamp = a.messages?.length > 0 ? new Date(a.messages[a.messages.length - 1].timestamp).getTime() : Infinity;
-        const b_timestamp = b.messages?.length > 0 ? new Date(b.messages[b.messages.length - 1].timestamp).getTime() : Infinity;
-        return b_timestamp - a_timestamp;
-    }
-
     return (
         <div className="chat-page">
             <div className='chat-list-container'>
-                <div className='chat-list-header'>
-                    <h2>Your Chats</h2>
-                </div>
-
-                <div className="chat-list">
-                    {chats.sort(sortChats).map((chat) => (
-                        // Display the chat only if it has messages or if the user started it
-                        (chat.messages.length > 0 || chat.participants[0] === user?.id) && 
-                        <ChatListItem 
-                            key={chat.id} 
-                            participants={getParticipants(chat)} 
-                            active={chat.id === activeChat?.id} 
-                            onClick={() => setActiveChat(chat)} 
-                            lastMessage={chat.messages[chat.messages.length - 1]}
-                        />
-                    ))}
-                </div>
-
-                <div className='chat-list-footer'>
-                    <button onClick={() => setIsModalOpen(true)}>
-                        Start a new Chat
-                    </button>
-                    {isModalOpen && (
-                        <UserSelectionModal
-                            onClose={() => setIsModalOpen(false)}
-                        />
-                    )}
-                </div>
+                <ChatList 
+                    chats={chats} 
+                    activeChat={activeChat} 
+                    setActiveChat={setActiveChat} 
+                />
             </div>
             
             <div className='chat-window-container'>
