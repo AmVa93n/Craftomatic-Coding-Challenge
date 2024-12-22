@@ -5,12 +5,15 @@ import { Message, Chat } from '../../types';
 import useSocket from '../../hooks/useSocket';
 import useAuth from '../../hooks/useAuth';
 import ChatList from '../ChatList/ChatList';
+import NewChatModal from '../NewChatModal/NewChatModal';
 
 export default function ChatPage() {
     const [chats, setChats] = useState<Chat[]>([]); // state to store the chats the user is part of
     const [activeChat, setActiveChat] = useState<Chat | null>(null); // state to store the currently active chat
     const { socket, castIdToUser, getParticipants } = useSocket();
     const { user } = useAuth();
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false); // state to control the visibility of the ChatList in mobile view
+    const [isModalOpen, setIsModalOpen] = useState(false); // state to control the visibility of the new chat modal
 
     useEffect(() => {
         // Request permission to show notifications
@@ -65,11 +68,13 @@ export default function ChatPage() {
 
     return (
         <div className="chat-page">
-            <div className='chat-list-container'>
+            <div className={`chat-list-container ${isDrawerOpen ? 'open' : ''}`}>
                 <ChatList 
                     chats={chats} 
                     activeChat={activeChat} 
                     setActiveChat={setActiveChat} 
+                    setIsDrawerOpen={setIsDrawerOpen}
+                    setIsModalOpen={setIsModalOpen}
                 />
             </div>
             
@@ -87,6 +92,10 @@ export default function ChatPage() {
                     </div>
                 }
             </div>
+
+            {isModalOpen && <NewChatModal onClose={() => setIsModalOpen(false)}/>}
+
+            <button className="floating-button" onClick={() => setIsDrawerOpen(!isDrawerOpen)}>🗨️</button>
         </div>
     );
 };

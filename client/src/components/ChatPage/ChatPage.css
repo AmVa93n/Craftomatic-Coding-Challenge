@@ -25,3 +25,64 @@
     background-color: #ddd;
     padding: 0.5rem;
 }
+
+.floating-button {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 80px;
+    right: 25px;
+    background-color: lightgray;
+    color: #000;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 998;
+}
+
+.floating-button:hover {
+    background-color: gray;
+}
+
+/* Responsive for smaller screens */
+@media (max-width: 900px) {
+    .chat-window-container {
+        width: 60%;
+    }
+    
+    .chat-list-container {
+        width: 40%;
+    }
+}
+
+/* Responsive for mobile screens */
+@media (max-width: 650px) {
+    .chat-window-container {
+        width: 100%;
+    }
+    
+    .chat-list-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 75%;
+        height: 100%;
+        transform: translateX(-100%);
+        z-index: 999;
+        background-color: white;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .chat-list-container.open {
+        transform: translateX(0);
+    }
+
+    .floating-button {
+        display: flex;
+    }
+}

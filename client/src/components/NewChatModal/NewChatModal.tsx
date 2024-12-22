@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './UserSelectionModal.css';
+import './NewChatModal.css';
 import useSocket from '../../hooks/useSocket';
 import useAuth from '../../hooks/useAuth';
 
@@ -7,7 +7,7 @@ interface Props {
     onClose: () => void;
 }
 
-export default function UserSelectionModal({ onClose }: Props) {
+export default function NewChatModal({ onClose }: Props) {
     const [selectedUsers, setSelectedUsers] = useState<string[]>([]); // state to store the selected users for the new chat
     const [messageText, setMessageText] = useState(''); // State to store the message input
     const { socket, contacts } = useSocket();

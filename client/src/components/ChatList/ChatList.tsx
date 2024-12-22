@@ -1,8 +1,6 @@
 import './ChatList.css'
 import ChatListItem from '../ChatListItem/ChatListItem';
-import UserSelectionModal from '../UserSelectionModal/UserSelectionModal';
 import { Chat } from '../../types';
-import { useState } from 'react';
 import useAuth from '../../hooks/useAuth';
 import useSocket from '../../hooks/useSocket';
 
@@ -10,10 +8,11 @@ interface Props {
     chats: Chat[];
     activeChat: Chat | null;
     setActiveChat: (chat: Chat) => void;
+    setIsDrawerOpen: (isOpen: boolean) => void;
+    setIsModalOpen: (isOpen: boolean) => void;
 }
 
-export default function ChatList({ chats, activeChat, setActiveChat }: Props) {
-    const [isModalOpen, setIsModalOpen] = useState(false); // state to control the visibility of the UserSelectionModal
+export default function ChatList({ chats, activeChat, setActiveChat, setIsDrawerOpen, setIsModalOpen }: Props) {
     const { user, logOutUser } = useAuth();
     const { getParticipants } = useSocket();
 
@@ -40,7 +39,10 @@ export default function ChatList({ chats, activeChat, setActiveChat }: Props) {
                         key={chat.id} 
                         participants={getParticipants(chat)} 
                         active={chat.id === activeChat?.id} 
-                        onClick={() => setActiveChat(chat)} 
+                        onClick={() => {
+                            setActiveChat(chat);
+                            setIsDrawerOpen(false); // Close the drawer when a chat is selected
+                        }} 
                         lastMessage={chat.messages[chat.messages.length - 1]}
                     />
                 ))}
@@ -51,11 +53,6 @@ export default function ChatList({ chats, activeChat, setActiveChat }: Props) {
                     Start a new Chat
                 </button>
                 <button className='logout-button' onClick={logOutUser}>Logout</button>
-                {isModalOpen && (
-                    <UserSelectionModal
-                        onClose={() => setIsModalOpen(false)}
-                    />
-                )}
             </div>
         </div>
     );

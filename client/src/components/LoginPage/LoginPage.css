@@ -56,9 +56,11 @@
     background-color: #0056b3;
 }
 
+/* Responsive for mobile */
 @media (max-width: 600px) {
     .login-container {
         padding: 15px;
+        max-width: 95%;
     }
 
     .login-page h2 {
