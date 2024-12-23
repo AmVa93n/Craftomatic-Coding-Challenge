@@ -8,9 +8,8 @@ import ChatList from '../ChatList/ChatList';
 import NewChatModal from '../NewChatModal/NewChatModal';
 
 export default function ChatPage() {
-    const [chats, setChats] = useState<Chat[]>([]); // state to store the chats the user is part of
     const [activeChat, setActiveChat] = useState<Chat | null>(null); // state to store the currently active chat
-    const { socket, castIdToUser } = useSocket();
+    const { socket, chats, setChats, castIdToUser } = useSocket();
     const { user } = useAuth();
     const [isDrawerOpen, setIsDrawerOpen] = useState(false); // state to control the visibility of the ChatList in mobile view
     const [isModalOpen, setIsModalOpen] = useState(false); // state to control the visibility of the new chat modal
@@ -21,13 +20,9 @@ export default function ChatPage() {
             Notification.requestPermission();
         }
 
+        if (chats.length > 0) setActiveChat(chats[0]); // Set the first chat as the active chat by default, if there are any chats
+
         if (!socket) return;
-        
-        // listen for the getChats event (sent by the server when the user goes online)
-        socket.on('getChats', (chats: Chat[]) => { 
-            setChats(chats); // Update the chats state
-            if (chats.length > 0) setActiveChat(chats[0]); // Set the first chat as the active chat by default, if there are any chats
-        });
 
         // listen for the newChat event (sent by the server when a new chat is created with the user as a participant)
         socket.on('newChat', (newChat: Chat) => { 
@@ -59,12 +54,11 @@ export default function ChatPage() {
         });
 
         return () => { // Clean up the event listeners when the component unmounts
-            socket.off('getChats');
             socket.off('newChat');
             socket.off('newMessage');
         };
         
-    }, [socket, user]);
+    }, [socket, user, chats, setChats, castIdToUser]);
 
     return (
         <div className="chat-page">
@@ -82,7 +76,7 @@ export default function ChatPage() {
                 {activeChat ? <ChatWindow chat={activeChat} /> :
                     /* Display a placeholder message if there are no chats */
                     <div>
-                        <h2>Oh no! it looks like you don't have any chats yet 😢</h2>
+                        <h2>It looks like you don't have any chats yet</h2>
                         <h3>Click on <span className='inline-code'>Start a new Chat</span> and select the user(s) you'd like to chat with</h3>
                     </div>
                 }
