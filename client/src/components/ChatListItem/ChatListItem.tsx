@@ -7,15 +7,16 @@ interface Props {
     active: boolean;
     onClick: () => void;
     lastMessage: Message;
+    image: string | undefined;
 }
 
-export default function ChatListItem({ participants, active, onClick, lastMessage }: Props) {
+export default function ChatListItem({ participants, active, onClick, lastMessage, image }: Props) {
     const { castIdToUser, formatTimestamp } = useSocket();
 
     return (
         <div className={`chat ${active ? 'active' : ''}`} onClick={onClick}>
             <img 
-                src={'/default-avatar.png'} 
+                src={image || '/group-chat.png'} 
                 alt="avatar" 
             />
             <div className="chat-info">

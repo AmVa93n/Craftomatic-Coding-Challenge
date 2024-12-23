@@ -45,7 +45,7 @@ export default function ChatWindow({ chat, participants }: Props) {
                 {chat.messages.map((message, index) => (
                     <div key={index} className="chat-message">
                         <img 
-                            src={castIdToUser(message.sender)?.image || '/default-avatar.png'} 
+                            src={castIdToUser(message.sender)?.image || user?.image || '/default-avatar.png'} 
                             alt={`avatar`} 
                             className="avatar" 
                         />

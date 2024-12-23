@@ -14,13 +14,25 @@ interface Props {
 
 export default function ChatList({ chats, activeChat, setActiveChat, setIsDrawerOpen, setIsModalOpen }: Props) {
     const { user, logOutUser } = useAuth();
-    const { getParticipants } = useSocket();
+    const { getParticipants, castIdToUser } = useSocket();
 
     // Helper function to sort the chats based on the timestamp of the last message
     function sortChats(a: Chat, b: Chat) {
         const a_timestamp = new Date(a.messages[a.messages.length - 1].timestamp).getTime();
         const b_timestamp = new Date(b.messages[b.messages.length - 1].timestamp).getTime();
         return b_timestamp - a_timestamp;
+    }
+
+    // Helper function to get the chat image based on the participants
+    function getChatImage(participants: string[]) {
+        if (participants.length === 2) { // For one-on-one chats, show the other user's image
+            if (participants[1] === user?.id) {
+                return castIdToUser(participants[0])?.image;
+            } else {
+                return castIdToUser(participants[1])?.image;
+            }
+        }
+        return '/group-chat.png'; // For group chats, show the group chat image
     }
 
     return (
@@ -44,6 +56,7 @@ export default function ChatList({ chats, activeChat, setActiveChat, setIsDrawer
                             setIsDrawerOpen(false); // Close the drawer when a chat is selected
                         }} 
                         lastMessage={chat.messages[chat.messages.length - 1]}
+                        image={getChatImage(chat.participants)}
                     />
                 ))}
             </div>

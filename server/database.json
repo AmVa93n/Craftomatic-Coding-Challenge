@@ -1,22 +1,172 @@
 {
     "users": [
         {
-            "id": "25ae2316-5a82-49c4-9dcb-53327f5a5b48",
-            "username": "Amir",
-            "email": "amir6661@gmail.com",
-            "password": "12345678"
+            "id": "86ca0f0d-4fef-4bbc-b1f8-2a9b05159981",
+            "username": "Melissa",
+            "email": "melissa.lotz@example.com",
+            "password": "gizmodo",
+            "image": "https://randomuser.me/api/portraits/thumb/women/19.jpg"
         },
         {
-            "id": "a57b9ba0-317c-4e58-b328-3ef193865402",
-            "username": "Anna",
-            "email": "anna.mockemail@gmail.com",
-            "password": "12345678"
+            "id": "872e5369-f308-47b9-9b80-51eb3fbe9ec4",
+            "username": "Kent",
+            "email": "kent.sabel@example.com",
+            "password": "sandro",
+            "image": "https://randomuser.me/api/portraits/thumb/men/67.jpg"
         },
         {
-            "id": "825aba8c-2a8a-4913-a9c7-1df2d550e995",
-            "username": "Ivan",
-            "email": "ivan.mockemail@gmail.com",
-            "password": "12345678"
+            "id": "63c0633e-9c84-4fe9-85c2-65fb48ec2a82",
+            "username": "Joe",
+            "email": "joe.carr@example.com",
+            "password": "porkchop",
+            "image": "https://randomuser.me/api/portraits/thumb/men/37.jpg"
+        },
+        {
+            "id": "393ff36a-c52a-48d9-9366-169616e2b1b8",
+            "username": "Chris",
+            "email": "chris.gibson@example.com",
+            "password": "222222",
+            "image": "https://randomuser.me/api/portraits/thumb/men/28.jpg"
+        },
+        {
+            "id": "b6061b1a-1174-4664-8656-882d6136e3c1",
+            "username": "Pamela",
+            "email": "pamela.simmmons@example.com",
+            "password": "voyeur",
+            "image": "https://randomuser.me/api/portraits/thumb/women/63.jpg"
+        },
+        {
+            "id": "e4083fc8-8440-4a66-a25f-1236001ccc34",
+            "username": "Antônia",
+            "email": "antonia.dacunha@example.com",
+            "password": "steven",
+            "image": "https://randomuser.me/api/portraits/thumb/women/37.jpg"
+        },
+        {
+            "id": "fe6eaf6a-da4c-45eb-8b53-18ead00fc610",
+            "username": "Vibha",
+            "email": "vibha.sullad@example.com",
+            "password": "usa123",
+            "image": "https://randomuser.me/api/portraits/thumb/women/14.jpg"
+        },
+        {
+            "id": "29edb0e6-37f4-4581-89d7-352bbc7ec946",
+            "username": "Yaromir",
+            "email": "yaromir.hmelko@example.com",
+            "password": "pigeon",
+            "image": "https://randomuser.me/api/portraits/thumb/men/91.jpg"
+        },
+        {
+            "id": "f7e77248-af10-48fe-a0e9-f2769907009a",
+            "username": "Rico",
+            "email": "rico.richard@example.com",
+            "password": "gerbil",
+            "image": "https://randomuser.me/api/portraits/thumb/men/67.jpg"
+        },
+        {
+            "id": "a6f91946-4d56-477b-ae34-47d535df21f6",
+            "username": "Seth",
+            "email": "seth.cook@example.com",
+            "password": "1066",
+            "image": "https://randomuser.me/api/portraits/thumb/men/56.jpg"
+        },
+        {
+            "id": "021dd541-fe05-4e4c-a81c-920073c3ffed",
+            "username": "Nora",
+            "email": "nora.bertrand@example.com",
+            "password": "fingers",
+            "image": "https://randomuser.me/api/portraits/thumb/women/0.jpg"
+        },
+        {
+            "id": "fd0ec0c3-fbc1-423c-9d95-c8a433f25ca2",
+            "username": "Esat",
+            "email": "esat.kahveci@example.com",
+            "password": "friday",
+            "image": "https://randomuser.me/api/portraits/thumb/men/0.jpg"
+        },
+        {
+            "id": "6c200b8f-d7df-4901-9ee8-0b46f77fa1cc",
+            "username": "Mitesh",
+            "email": "mitesh.shukla@example.com",
+            "password": "1226",
+            "image": "https://randomuser.me/api/portraits/thumb/men/69.jpg"
+        },
+        {
+            "id": "163f8c9a-1882-4ec7-b284-3974f580587b",
+            "username": "Mario",
+            "email": "mario.castillo@example.com",
+            "password": "chuck1",
+            "image": "https://randomuser.me/api/portraits/thumb/men/37.jpg"
+        },
+        {
+            "id": "3ab452e1-1067-48d5-a92e-2289e707a649",
+            "username": "Darren",
+            "email": "darren.fleming@example.com",
+            "password": "yeah",
+            "image": "https://randomuser.me/api/portraits/thumb/men/51.jpg"
+        },
+        {
+            "id": "7ecc38da-2fbc-4da1-89f3-5bff1b6ae060",
+            "username": "Marko",
+            "email": "marko.topic@example.com",
+            "password": "polska",
+            "image": "https://randomuser.me/api/portraits/thumb/men/52.jpg"
+        },
+        {
+            "id": "af51317e-92e3-472e-9f96-45e03b21659d",
+            "username": "Frida",
+            "email": "frida.patino@example.com",
+            "password": "bigone",
+            "image": "https://randomuser.me/api/portraits/thumb/women/12.jpg"
+        },
+        {
+            "id": "c24882c4-3f7f-49c9-8cc0-8ae00495d7f6",
+            "username": "Pedram",
+            "email": "pedram.snoeks@example.com",
+            "password": "walmart",
+            "image": "https://randomuser.me/api/portraits/thumb/men/61.jpg"
+        },
+        {
+            "id": "8e4b79df-3663-4ca4-8fee-5aaf9836e7d5",
+            "username": "Lucas",
+            "email": "lucas.lewis@example.com",
+            "password": "hidden",
+            "image": "https://randomuser.me/api/portraits/thumb/men/13.jpg"
+        },
+        {
+            "id": "bdc2bbe6-413b-44be-a4cb-7d43856da6e2",
+            "username": "Vanesa",
+            "email": "vanesa.canales@example.com",
+            "password": "trance",
+            "image": "https://randomuser.me/api/portraits/thumb/women/92.jpg"
+        },
+        {
+            "id": "506ad72a-5d90-46b5-bbde-c23bf6182fee",
+            "username": "Théodore",
+            "email": "theodore.leclercq@example.com",
+            "password": "qing",
+            "image": "https://randomuser.me/api/portraits/thumb/men/18.jpg"
+        },
+        {
+            "id": "a7f1593d-e0ce-4764-8f8f-e3b6e3823a85",
+            "username": "Juan Manuel",
+            "email": "juanmanuel.tejeda@example.com",
+            "password": "harbor",
+            "image": "https://randomuser.me/api/portraits/thumb/men/43.jpg"
+        },
+        {
+            "id": "a0d73b6a-7f82-4c8d-bf53-03949f26f8a5",
+            "username": "Alfonso",
+            "email": "alfonso.bravo@example.com",
+            "password": "lian",
+            "image": "https://randomuser.me/api/portraits/thumb/men/66.jpg"
+        },
+        {
+            "id": "c59116f5-8cb9-4382-ac33-a4c3a29bb55f",
+            "username": "Sonja",
+            "email": "sonja.robert@example.com",
+            "password": "jacques",
+            "image": "https://randomuser.me/api/portraits/thumb/women/95.jpg"
         }
     ],
     "chats": [
