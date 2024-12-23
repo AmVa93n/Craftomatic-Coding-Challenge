@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import './WeatherWidget.css';
-import { CurrentWeatherData, WeatherEntry } from '../../types';
+import { CurrentWeatherData, OpenWeatherResponseEntry, WeatherEntry } from '../../types';
+import WeatherForecast from '../WeatherForecast/WeatherForecast';
 
 const API_KEY = '7df7b83b355ae64256679443ad7326d8';
 
@@ -28,70 +29,73 @@ export default function WeatherWidget() {
   }, []);
 
   useEffect(() => {
-    if (location) {
-      async function fetchWeatherData() {
-        try {
-            // Fetch current weather data based on user's location
-            const currentWeatherResponse = await axios.get(
-                `https://api.openweathermap.org/data/2.5/weather?lat=${location?.latitude}&lon=${location?.longitude}&units=metric&appid=${API_KEY}`
-            );
-            // Extract the relevant data from the response
-            const currentWeatherData = {
-                temperature: currentWeatherResponse.data.main.temp,
-                description: currentWeatherResponse.data.weather[0].description,
-                icon: `http://openweathermap.org/img/wn/${currentWeatherResponse.data.weather[0].icon}.png`,
-                city: currentWeatherResponse.data.name
-            };
-            setCurrentWeather(currentWeatherData);
+        if (!location) return;
 
-            // Fetch 5-day forecast data based on user's location
-            const forecastResponse = await axios.get(
-                `https://api.openweathermap.org/data/2.5/forecast?lat=${location?.latitude}&lon=${location?.longitude}&units=metric&appid=${API_KEY}`
-            );
+        async function fetchWeatherData() {
+            try {
+                // Fetch current weather data based on user's location
+                const currentWeatherResponse = await axios.get(
+                    `https://api.openweathermap.org/data/2.5/weather?lat=${location?.latitude}&lon=${location?.longitude}&units=metric&appid=${API_KEY}`
+                );
+                // Extract the relevant data from the response
+                const currentWeatherData = {
+                    temperature: currentWeatherResponse.data.main.temp,
+                    description: currentWeatherResponse.data.weather[0].description,
+                    icon: `http://openweathermap.org/img/wn/${currentWeatherResponse.data.weather[0].icon}.png`,
+                    city: currentWeatherResponse.data.name
+                };
+                setCurrentWeather(currentWeatherData);
 
-            // Organize forecast data by day
-            const dailyData: { [key: string]: WeatherEntry[] } = {};
-            forecastResponse.data.list.forEach((item: any) => {
-                const [date, time] = item.dt_txt.split(' ');
-                if (!dailyData[date]) dailyData[date] = [];
-                dailyData[date].push({
-                    date,
-                    time: time.slice(0, 5),
-                    temperature: item.main.temp,
-                    humidity: item.main.humidity,
-                    description: item.weather[0].description,
-                    icon: `http://openweathermap.org/img/wn/${item.weather[0].icon}.png`
+                // Fetch 5-day forecast data based on user's location
+                const forecastResponse = await axios.get(
+                    `https://api.openweathermap.org/data/2.5/forecast?lat=${location?.latitude}&lon=${location?.longitude}&units=metric&appid=${API_KEY}`
+                );
+
+                // Organize forecast data by day
+                const dailyData: { [key: string]: WeatherEntry[] } = {};
+                forecastResponse.data.list.forEach((item: OpenWeatherResponseEntry) => {
+                    const [date, time] = item.dt_txt.split(' '); // Extract date and time from the response
+                    if (!dailyData[date]) dailyData[date] = [];
+                    dailyData[date].push({
+                        date,
+                        time: time.slice(0, 5), // Format time as HH:MM
+                        temperature: item.main.temp,
+                        humidity: item.main.humidity,
+                        description: item.weather[0].description,
+                        icon: `http://openweathermap.org/img/wn/${item.weather[0].icon}.png`
+                    });
                 });
-            });
-        
-            setForecastData(dailyData);
-            setSelectedDate(Object.keys(dailyData)[0]); // Set the first date as the default selected date
-        } catch (error) {
-            console.error('Error fetching weather data:', error);
-        }
-      };
+            
+                setForecastData(dailyData);
+                setSelectedDate(Object.keys(dailyData)[0]); // Set the first date as the default selected date
+            } catch (error) {
+                console.error('Error fetching weather data:', error);
+            }
+        };
 
-      fetchWeatherData();
-    }
-  }, [location]);
+        fetchWeatherData();
+    }, [location]);
 
   return (
     <div className="weather-widget-page">
         <div className="weather-widget">
             {currentWeather && (
                 <div className="current-weather">
-                    <h2>Current Weather in {currentWeather.city}</h2>
+                    <h3>Current Weather</h3>
                     <div className="current-weather-info">
-                        <img src={currentWeather.icon} alt={currentWeather.description} className="current-weather-icon" />
-                        <div className="current-weather-details">
-                            <div className="current-weather-temp">{Math.floor(currentWeather.temperature)}°C</div>
-                            <div className="current-weather-description">{currentWeather.description}</div>
+                        <h2>{currentWeather.city}</h2>
+                        <div className="current-weather-details-container">
+                            <img src={currentWeather.icon} alt={currentWeather.description} className="current-weather-icon" />
+                            <div className="current-weather-details">
+                                <div className="current-weather-temp">{Math.floor(currentWeather.temperature)}°C</div>
+                                <div className="current-weather-description">{currentWeather.description}</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             )}
 
-            <h2>5-Day Weather Forecast</h2>
+            <h3>5-Day Weather Forecast</h3>
             
             <div className="forecast-navbar">
                 {Object.keys(forecastData).map((date, index) => (
@@ -105,22 +109,8 @@ export default function WeatherWidget() {
                 ))}
             </div>
 
-            <div className="weather-forecast">
-                {selectedDate && forecastData[selectedDate] && (
-                    <div className="weather-day">
-                        <div className="weather-date">{new Date(selectedDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</div>
-                        {forecastData[selectedDate].map((entry, entryIndex) => (
-                            <div key={entryIndex} className="weather-entry">
-                                <div className="weather-time">{entry.time}</div>
-                                <img src={entry.icon} alt={entry.description} className="weather-icon" />
-                                <div className="weather-temp">{Math.floor(entry.temperature)}°C</div>
-                                <div className="weather-description">{entry.description}</div>
-                                <div className="weather-humidity">{entry.humidity}% 💧</div>
-                            </div>
-                        ))}
-                    </div>
-                )}
-            </div>
+            <WeatherForecast forecastData={forecastData} selectedDate={selectedDate} />
+            
         </div>
     </div>
   );

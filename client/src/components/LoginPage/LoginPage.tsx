@@ -38,7 +38,7 @@ export default function LoginPage() {
     return (
         <div className="login-page">
             <div className="login-container">
-                <h2>Login</h2>
+                <h2>Log in to start chatting</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label htmlFor="email">Email</label>

@@ -52,3 +52,15 @@ export interface WeatherEntry {
     description: string;
     icon: string;
 }
+
+export interface OpenWeatherResponseEntry {
+    dt_txt: string;
+    main: {
+        temp: number;
+        humidity: number;
+    };
+    weather: {
+        description: string;
+        icon: string;
+    }[];
+}
