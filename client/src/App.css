@@ -16,3 +16,32 @@ button:disabled {
     color: #666;
     cursor: not-allowed;
 }
+
+.app-navbar {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    padding: 5px;
+    border-bottom: 1px solid #ccc;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #f0f0f0;
+}
+
+.app-tab {
+    background-color: #f0f0f0;
+    border: none;
+    padding: 3px 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    color: #666;
+}
+
+.app-tab:hover {
+    background-color: #e0e0e0;
+}
+
+.app-tab.active {
+    background-color: #007bff;
+    color: #fff;
+}

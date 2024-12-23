@@ -20,3 +20,35 @@ export interface Chat {
     messages: Message[]
     name: string
 }
+
+export interface Device {
+    id: string;
+    type: string;
+    latitude: number;
+    longitude: number;
+}
+
+export interface ForecastData {
+    date: string;
+    temp_min: number;
+    temp_max: number;
+    humidity: number;
+    description: string;
+    icon: string;
+}
+
+export interface CurrentWeatherData {
+    temperature: number;
+    description: string;
+    icon: string;
+    city: string;
+}
+
+export interface WeatherEntry {
+    date: string;
+    time: string;
+    temperature: number;
+    humidity: number;
+    description: string;
+    icon: string;
+}
