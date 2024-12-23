@@ -17,6 +17,10 @@
     font-weight: bold;
 }
 
+.chat-header h2 {
+    margin: 5px;
+}
+
 .chat-messages {
     flex: 1;
     padding: 10px;

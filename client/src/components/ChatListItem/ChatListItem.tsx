@@ -3,14 +3,14 @@ import { Message } from '../../types';
 import useSocket from '../../hooks/useSocket';
 
 interface Props {
-    participants: string;
+    name: string;
     active: boolean;
     onClick: () => void;
     lastMessage: Message;
     image: string | undefined;
 }
 
-export default function ChatListItem({ participants, active, onClick, lastMessage, image }: Props) {
+export default function ChatListItem({ name, active, onClick, lastMessage, image }: Props) {
     const { castIdToUser, formatTimestamp } = useSocket();
 
     return (
@@ -20,7 +20,7 @@ export default function ChatListItem({ participants, active, onClick, lastMessag
                 alt="avatar" 
             />
             <div className="chat-info">
-                <span className="chat-name">{participants}</span>
+                <span className="chat-name">{name}</span>
                 {lastMessage && 
                     <span className="last-message">
                         <span className="sender">{castIdToUser(lastMessage.sender)?.username || 'You'}:</span>

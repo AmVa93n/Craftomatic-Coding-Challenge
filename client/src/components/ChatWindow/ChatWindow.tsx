@@ -8,12 +8,11 @@ import Picker from '@emoji-mart/react'
 
 interface Props {
     chat: Chat
-    participants: string;
 }
 
-export default function ChatWindow({ chat, participants }: Props) {
+export default function ChatWindow({ chat }: Props) {
     const [messageText, setMessageText] = useState(''); // State to store the message input
-    const { socket, castIdToUser, formatTimestamp } = useSocket();
+    const { socket, castIdToUser, formatTimestamp, getChatName, getParticipants } = useSocket();
     const { user } = useAuth();
     const chatContainerRef = useRef<HTMLDivElement>(null); // Ref to the chat container div
     const [showEmojiPicker, setShowEmojiPicker] = useState(false); // State to control the visibility of the emoji picker
@@ -39,7 +38,8 @@ export default function ChatWindow({ chat, participants }: Props) {
     return (
         <div className="chat-window">
             <div className="chat-header">
-                <h2>Chat with {participants}</h2>
+                <h2>{chat.name || `Chat with ${getChatName(chat)}`}</h2>
+                {chat.participants.length > 2 && <span>{getParticipants(chat)}</span>}
             </div>
             <div className="chat-messages" ref={chatContainerRef}>
                 {chat.messages.map((message, index) => (

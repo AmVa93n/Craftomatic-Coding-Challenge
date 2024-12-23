@@ -24,7 +24,7 @@ function SocketProvider({ children }: PropsWithChildren) {
     }
 
     newSocket.on('getUsers', (users: User[]) => { // listen for the geUsers event and update the users state
-      setContacts(users);
+      setContacts(users.sort((a,b) => a.username.localeCompare(b.username))); // Sort the users by username
     });
 
     return () => { // Clean up the socket connection when the component unmounts

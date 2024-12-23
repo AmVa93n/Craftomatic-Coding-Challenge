@@ -14,7 +14,7 @@ interface Props {
 
 export default function ChatList({ chats, activeChat, setActiveChat, setIsDrawerOpen, setIsModalOpen }: Props) {
     const { user, logOutUser } = useAuth();
-    const { getParticipants, castIdToUser } = useSocket();
+    const { getChatName, castIdToUser } = useSocket();
 
     // Helper function to sort the chats based on the timestamp of the last message
     function sortChats(a: Chat, b: Chat) {
@@ -49,7 +49,7 @@ export default function ChatList({ chats, activeChat, setActiveChat, setIsDrawer
                 {chats.sort(sortChats).map((chat) => ( 
                     <ChatListItem 
                         key={chat.id} 
-                        participants={getParticipants(chat)} 
+                        name={getChatName(chat) || 'Unnamed Chat'}
                         active={chat.id === activeChat?.id} 
                         onClick={() => {
                             setActiveChat(chat);

@@ -17,19 +17,37 @@
     border-radius: 5px;
     width: 300px;
     max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .modal-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+}
+
+.modal-header h3 {
+    margin: 0;
+    text-align: center;
+}
+
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.modal-body p {
+    margin: 0;
 }
 
 .modal-list {
     flex-grow: 1;
-    max-height: 50vh;
     overflow-y: auto;
-    padding: 10px;
 }
 
 .modal-list-item {
@@ -67,13 +85,14 @@
     margin-right: 10px;
 }
 
-.modal-msg {
-    margin-top: 20px;
+.modal-input {
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    gap: 10px;
 }
 
-.modal-msg input {
+.modal-input input {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -82,6 +101,6 @@
 
 .modal-buttons {
     display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
+    justify-content: center;
+    gap: 10px;
 }

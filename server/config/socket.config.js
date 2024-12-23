@@ -32,7 +32,7 @@ io.on('connection', (socket) => {
     });
 
     // listen for the event 'chat' (user starts a new chat)
-    socket.on('chat', async (participants, messageText) => {
+    socket.on('chat', async (participants, messageText, chatName) => {
         try {
             const chats = await db.getData('/chats');
             // Check if there is already a chat with the same combination of users
@@ -45,7 +45,7 @@ io.on('connection', (socket) => {
                 return;
             }
 
-            const chat = { id: uuidv4(), participants }; 
+            const chat = { id: uuidv4(), participants, name: chatName };
             await db.push('/chats[]', chat, true); // create a new chat object in the database
             const message = { id: uuidv4(), sender: participants[0], text: messageText, chatId: chat.id, timestamp: new Date().toISOString() }; 
             await db.push('/messages[]', message, true); // create a new message object in the database for the first message of the chat

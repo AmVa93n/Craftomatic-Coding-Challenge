@@ -10,7 +10,7 @@ import NewChatModal from '../NewChatModal/NewChatModal';
 export default function ChatPage() {
     const [chats, setChats] = useState<Chat[]>([]); // state to store the chats the user is part of
     const [activeChat, setActiveChat] = useState<Chat | null>(null); // state to store the currently active chat
-    const { socket, castIdToUser, getParticipants } = useSocket();
+    const { socket, castIdToUser } = useSocket();
     const { user } = useAuth();
     const [isDrawerOpen, setIsDrawerOpen] = useState(false); // state to control the visibility of the ChatList in mobile view
     const [isModalOpen, setIsModalOpen] = useState(false); // state to control the visibility of the new chat modal
@@ -79,12 +79,7 @@ export default function ChatPage() {
             </div>
             
             <div className='chat-window-container'>
-                {activeChat ?
-                    <ChatWindow 
-                        chat={activeChat}
-                        participants={getParticipants(activeChat)}
-                    />
-                :
+                {activeChat ? <ChatWindow chat={activeChat} /> :
                     /* Display a placeholder message if there are no chats */
                     <div>
                         <h2>Oh no! it looks like you don't have any chats yet 😢</h2>

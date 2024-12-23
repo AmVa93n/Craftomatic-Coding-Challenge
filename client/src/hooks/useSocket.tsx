@@ -22,14 +22,25 @@ export default function useSocket() {
         return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     };
 
+    function getChatName(chat: Chat) {
+        if (chat.participants.length === 2) { // For one-on-one chats, show the other user's username
+            if (chat.participants[1] === user?.id) {
+                return castIdToUser(chat.participants[0])?.username;
+            } else {
+                return castIdToUser(chat.participants[1])?.username;
+            }
+        }
+        return chat.name; // For group chats, show the chat name
+    }
+
     // Helper function to get the list of names of the participants in a chat
     function getParticipants(chat: Chat) { 
         if (!chat) return ''; // Return an empty string if the chat is not provided
         const participantIds = chat.participants.filter((id: string) => id !== user?.id); // Filter out the current user's id
-        const participants = participantIds.map((id: string) => castIdToUser(id)); // cast the participant ID's to user objects
-        const jointString = participants.map((user) => user?.username).join(', '); // Join the usernames of the participants
-        return jointString
+        const users = participantIds.map((id: string) => castIdToUser(id)); // cast the participant ID's to user objects
+        const jointString = users.map((user) => user?.username).join(', '); // Join the usernames of the participants
+        return 'You, ' + jointString
     };
 
-    return {...context, castIdToUser, formatTimestamp, getParticipants};
+    return {...context, castIdToUser, formatTimestamp, getChatName, getParticipants};
 };
