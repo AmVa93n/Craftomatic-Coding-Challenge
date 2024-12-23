@@ -32,3 +32,14 @@
     cd server
     npm run start
     ```
+
+### Usage
+
+#### User Authentication
+The `database.json`file in the server directory contains a list of mock user objects. Pick a user and log in with their email and password.
+
+#### Live Chat
+Open another browser tab in incognito. Pick another user from the list in `database.json` and log in with their email and password on the incognito tab. Now you can simulate a live chat between the two users.
+
+#### Weather Widget
+The widget will fetch the data based on your location, so you must enable location access in your browser for it to work.

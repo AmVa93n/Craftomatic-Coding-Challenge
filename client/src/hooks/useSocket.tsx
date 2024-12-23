@@ -22,6 +22,7 @@ export default function useSocket() {
         return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     };
 
+    // Helper function to get the name displayed for a chat
     function getChatName(chat: Chat) {
         if (chat.participants.length === 2) { // For one-on-one chats, show the other user's username
             if (chat.participants[1] === user?.id) {
