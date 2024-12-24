@@ -47,6 +47,7 @@ function SocketProvider({ children }: PropsWithChildren) {
       if (newChat.participants[0] === user?.id) {
           setActiveChat(newChat); // set as active chat if the user started the chat
       } 
+      newSocket.emit('addChat', newChat.id); // Emit the 'addChat' event so the server can add the user's socket to the chat's room
     });
     
     // listen for the newMessage event (sent by the server when a new message is sent in any chat)

@@ -57,6 +57,11 @@ io.on('connection', (socket) => {
         }
     });
 
+    // listen for the event 'addChat' (a new chat is added)
+    socket.on('addChat', async (chatId) => {
+        socket.join(chatId) // join the room identified by the chat id
+    });
+
     // listen for the event 'message' (user sends a message)
     socket.on('message', async (messageData) => {
         const { sender, text, chatId } = messageData
