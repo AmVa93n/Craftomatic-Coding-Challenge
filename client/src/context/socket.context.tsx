@@ -62,16 +62,6 @@ function SocketProvider({ children }: PropsWithChildren) {
       setActiveChat((prevChat) => // If the active chat is the one that received the new message, update the active chat state
           prevChat?.id === newMsg.chatId ? { ...prevChat, messages: [...prevChat.messages, newMsg] } : prevChat
       );
-
-      // Trigger a browser notification if the tab is not active
-      if (document.hidden && Notification.permission === 'granted') {
-        const sender = contacts.find((user) => user.id === newMsg.sender);
-        if (!sender) return; // Return if the sender was the user
-        new Notification('New Message', {
-            body: `${sender.username}: ${newMsg.text}`,
-            icon: sender.image || '/default-avatar.png'
-        });
-      }
     });
 
     return () => { // Clean up the socket connection and event listeners when the component unmounts
@@ -81,7 +71,7 @@ function SocketProvider({ children }: PropsWithChildren) {
       newSocket.off('newMessage');
       newSocket.close();
     };
-  }, [user, contacts]);
+  }, [user]);
 
   return (
     <SocketContext.Provider value={{socket, contacts, chats, activeChat, setActiveChat}}>
