@@ -1,5 +1,6 @@
 import './WeatherForecast.css'
 import { WeatherEntry } from '../../types'
+import useFormat from '../../hooks/useFormat'
 
 interface Props {
     forecastData: { [key: string]: WeatherEntry[] };
@@ -7,12 +8,14 @@ interface Props {
 }
 
 export default function WeatherForecast({ forecastData, selectedDate }: Props) {
+    const { formatDate } = useFormat();
+
     return (
         <div className="weather-forecast">
             {selectedDate && forecastData[selectedDate] && (
                 <div className="weather-day">
                     <div className="weather-date">
-                        {new Date(selectedDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}
+                        {formatDate(selectedDate)}
                     </div>
                     
                     {forecastData[selectedDate].map((entry, entryIndex) => (

@@ -1,6 +1,7 @@
 import './ChatListItem.css';
 import { Message } from '../../types';
 import useSocket from '../../hooks/useSocket';
+import useFormat from '../../hooks/useFormat';
 
 interface Props {
     name: string;
@@ -11,7 +12,8 @@ interface Props {
 }
 
 export default function ChatListItem({ name, active, onClick, lastMessage, image }: Props) {
-    const { castIdToUser, formatTimestamp } = useSocket();
+    const { castIdToUser } = useSocket();
+    const { formatTime } = useFormat();
 
     return (
         <div className={`chat ${active ? 'active' : ''}`} onClick={onClick}>
@@ -25,7 +27,7 @@ export default function ChatListItem({ name, active, onClick, lastMessage, image
                     <span className="last-message">
                         <span className="sender">{castIdToUser(lastMessage.sender)?.username || 'You'}:</span>
                         <span className='text'>{lastMessage.text}</span>
-                        <span className='timestamp'>{formatTimestamp(lastMessage.timestamp)}</span>
+                        <span className='timestamp'>{formatTime(lastMessage.timestamp)}</span>
                     </span>
                 }
             </div>

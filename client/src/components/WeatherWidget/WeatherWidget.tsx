@@ -3,6 +3,8 @@ import axios from 'axios';
 import './WeatherWidget.css';
 import { CurrentWeatherData, OpenWeatherResponseEntry, WeatherEntry } from '../../types';
 import WeatherForecast from '../WeatherForecast/WeatherForecast';
+import CurrentWeather from '../CurrentWeather/CurrentWeather';
+import useFormat from '../../hooks/useFormat';
 
 const API_KEY = '7df7b83b355ae64256679443ad7326d8';
 
@@ -10,7 +12,8 @@ export default function WeatherWidget() {
   const [forecastData, setForecastData] = useState<{ [key: string]: WeatherEntry[] }>({}); // state to store the 5-day forecast data
   const [currentWeather, setCurrentWeather] = useState<CurrentWeatherData | null>(null); // state to store the current weather data
   const [location, setLocation] = useState<{ latitude: number; longitude: number } | null>(null); // state to store the user's location
-  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [selectedDate, setSelectedDate] = useState<string | null>(null); // state to store the selected date for the forecast
+  const { formatDate } = useFormat(); // Custom hook to format time and date
 
   useEffect(() => {
     if (navigator.geolocation) { // Get the user's current location
@@ -58,7 +61,7 @@ export default function WeatherWidget() {
                     if (!dailyData[date]) dailyData[date] = [];
                     dailyData[date].push({
                         date,
-                        time: time.slice(0, 5), // Format time as HH:MM
+                        time: time.slice(0, 5), // format the string to HH:MM
                         temperature: item.main.temp,
                         humidity: item.main.humidity,
                         description: item.weather[0].description,
@@ -79,21 +82,7 @@ export default function WeatherWidget() {
   return (
     <div className="weather-widget-page">
         <div className="weather-widget">
-            {currentWeather && (
-                <div className="current-weather">
-                    <h3>Current Weather</h3>
-                    <div className="current-weather-info">
-                        <h2>{currentWeather.city}</h2>
-                        <div className="current-weather-details-container">
-                            <img src={currentWeather.icon} alt={currentWeather.description} className="current-weather-icon" />
-                            <div className="current-weather-details">
-                                <div className="current-weather-temp">{Math.floor(currentWeather.temperature)}°C</div>
-                                <div className="current-weather-description">{currentWeather.description}</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
+            {currentWeather && <CurrentWeather currentWeather={currentWeather} />}
 
             <h3>5-Day Weather Forecast</h3>
             
@@ -104,7 +93,7 @@ export default function WeatherWidget() {
                         className={`forecast-tab ${selectedDate === date ? 'active' : ''}`}
                         onClick={() => setSelectedDate(date)}
                     >
-                        {new Date(date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}
+                        {formatDate(date)}
                     </button>
                 ))}
             </div>

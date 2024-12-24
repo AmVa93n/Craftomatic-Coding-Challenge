@@ -16,12 +16,6 @@ export default function useSocket() {
         return context.contacts.find((user) => user.id === id);
     }
 
-    // Helper function to format the timestamp of a message to hh:mm
-    function formatTimestamp(timestamp: string) {
-        const date = new Date(timestamp);
-        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    };
-
     // Helper function to get the name displayed for a chat
     function getChatName(chat: Chat) {
         if (chat.participants.length === 2) { // For one-on-one chats, show the other user's username
@@ -34,6 +28,18 @@ export default function useSocket() {
         return chat.name; // For group chats, show the chat name
     }
 
+    // Helper function to get the chat image based on the participants
+    function getChatImage(participants: string[]) {
+        if (participants.length === 2) { // For one-on-one chats, show the other user's image
+            if (participants[1] === user?.id) {
+                return castIdToUser(participants[0])?.image;
+            } else {
+                return castIdToUser(participants[1])?.image;
+            }
+        }
+        return '/group-chat.png'; // For group chats, show the group chat image
+    }
+
     // Helper function to get the list of names of the participants in a chat
     function getParticipants(chat: Chat) { 
         if (!chat) return ''; // Return an empty string if the chat is not provided
@@ -43,5 +49,5 @@ export default function useSocket() {
         return 'You, ' + jointString
     };
 
-    return {...context, castIdToUser, formatTimestamp, getChatName, getParticipants};
+    return {...context, castIdToUser, getChatName, getParticipants, getChatImage};
 };

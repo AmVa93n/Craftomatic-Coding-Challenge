@@ -3,16 +3,14 @@ import { Chat } from '../../types';
 import { useState, useEffect, useRef } from 'react';
 import useSocket from '../../hooks/useSocket'
 import useAuth from '../../hooks/useAuth';
-import data, { Skin } from '@emoji-mart/data'
-import Picker from '@emoji-mart/react'
+import useFormat from '../../hooks/useFormat';
+import data, { Skin } from '@emoji-mart/data';
+import Picker from '@emoji-mart/react';
 
-interface Props {
-    chat: Chat
-}
-
-export default function ChatWindow({ chat }: Props) {
+export default function ChatWindow({ chat }: {chat: Chat}) {
     const [messageText, setMessageText] = useState(''); // State to store the message input
-    const { socket, castIdToUser, formatTimestamp, getChatName, getParticipants } = useSocket();
+    const { socket, castIdToUser, getChatName, getParticipants } = useSocket();
+    const { formatTime } = useFormat();
     const { user } = useAuth();
     const chatContainerRef = useRef<HTMLDivElement>(null); // Ref to the chat container div
     const [showEmojiPicker, setShowEmojiPicker] = useState(false); // State to control the visibility of the emoji picker
@@ -28,10 +26,10 @@ export default function ChatWindow({ chat }: Props) {
         setMessageText(''); // Clear the input field after sending
     };
 
-    // Scroll chat to the bottom whenever messages array changes
+    // Scroll chat to the bottom whenever a new message is added
     useEffect(() => {
         if (chatContainerRef.current) {
-        chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+            chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
         }
     }, [chat.messages]);
 
@@ -52,7 +50,7 @@ export default function ChatWindow({ chat }: Props) {
                         <div className="message-content">
                             <div className="message-header">
                                 <span className="username">{castIdToUser(message.sender)?.username || 'You'}</span>
-                                <span className="timestamp">{formatTimestamp(message.timestamp)}</span>
+                                <span className="timestamp">{formatTime(message.timestamp)}</span>
                             </div>
                             <p>{message.text}</p>
                         </div>
