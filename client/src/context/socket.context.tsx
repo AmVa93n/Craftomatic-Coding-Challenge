@@ -24,11 +24,6 @@ function SocketProvider({ children }: PropsWithChildren) {
     const newSocket = io(import.meta.env.VITE_SERVER_URL || 'http://localhost:3000', { transports: ['websocket'] });
     setSocket(newSocket); // create a new socket connection
 
-    // Request permission to show notifications
-    if (Notification.permission === 'default') {
-      Notification.requestPermission();
-    }
-
     if (user) {
       newSocket.emit('online', user); // Emit the 'online' event with the user object
     }
