@@ -24,6 +24,7 @@ export default function ChatWindow({ chat }: {chat: Chat}) {
         }
         socket?.emit('message', message) // Emit the message event to the server with the message object
         setMessageText(''); // Clear the input field after sending
+        setShowEmojiPicker(false); // Hide the emoji picker after sending
     };
 
     // Scroll chat to the bottom whenever a new message is added

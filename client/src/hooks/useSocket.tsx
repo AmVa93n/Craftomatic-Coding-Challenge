@@ -19,11 +19,8 @@ export default function useSocket() {
     // Helper function to get the name displayed for a chat
     function getChatName(chat: Chat) {
         if (chat.participants.length === 2) { // For one-on-one chats, show the other user's username
-            if (chat.participants[1] === user?.id) {
-                return castIdToUser(chat.participants[0])?.username;
-            } else {
-                return castIdToUser(chat.participants[1])?.username;
-            }
+            const index = chat.participants[0] === user?.id ? 1 : 0;
+            return castIdToUser(chat.participants[index])?.username;
         }
         return chat.name; // For group chats, show the chat name
     }
@@ -31,11 +28,8 @@ export default function useSocket() {
     // Helper function to get the chat image based on the participants
     function getChatImage(participants: string[]) {
         if (participants.length === 2) { // For one-on-one chats, show the other user's image
-            if (participants[1] === user?.id) {
-                return castIdToUser(participants[0])?.image;
-            } else {
-                return castIdToUser(participants[1])?.image;
-            }
+            const index = participants[0] === user?.id ? 1 : 0;
+            return castIdToUser(participants[index])?.image;
         }
         return '/group-chat.png'; // For group chats, show the group chat image
     }
@@ -44,9 +38,8 @@ export default function useSocket() {
     function getParticipants(chat: Chat) { 
         if (!chat) return ''; // Return an empty string if the chat is not provided
         const participantIds = chat.participants.filter((id: string) => id !== user?.id); // Filter out the current user's id
-        const users = participantIds.map((id: string) => castIdToUser(id)); // cast the participant ID's to user objects
-        const jointString = users.map((user) => user?.username).join(', '); // Join the usernames of the participants
-        return 'You, ' + jointString
+        const names = participantIds.map((id: string) => castIdToUser(id)?.username); // cast the participant ID's to usernames
+        return 'You, ' + names.join(', '); // Join the usernames to a single string
     };
 
     return {...context, castIdToUser, getChatName, getParticipants, getChatImage};

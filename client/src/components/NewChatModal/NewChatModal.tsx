@@ -48,6 +48,7 @@ export default function NewChatModal({ onClose }: Props) {
                                     type="checkbox"
                                     value={user.id}
                                     checked={selectedUsers.includes(user.id)}
+                                    onChange={() => handleCheckboxChange(user.id)}
                                 />
                             </div>
                         ))}

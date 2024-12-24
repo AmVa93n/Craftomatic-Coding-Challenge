@@ -13,7 +13,7 @@ export default function WeatherWidget() {
   const [currentWeather, setCurrentWeather] = useState<CurrentWeatherData | null>(null); // state to store the current weather data
   const [location, setLocation] = useState<{ latitude: number; longitude: number } | null>(null); // state to store the user's location
   const [selectedDate, setSelectedDate] = useState<string | null>(null); // state to store the selected date for the forecast
-  const { formatDate } = useFormat(); // Custom hook to format time and date
+  const { formatDate } = useFormat();
 
   useEffect(() => {
     if (navigator.geolocation) { // Get the user's current location
@@ -34,7 +34,7 @@ export default function WeatherWidget() {
   useEffect(() => {
         if (!location) return;
 
-        async function fetchWeatherData() {
+        async function fetchCurrentWeather() {
             try {
                 // Fetch current weather data based on user's location
                 const currentWeatherResponse = await axios.get(
@@ -48,7 +48,13 @@ export default function WeatherWidget() {
                     city: currentWeatherResponse.data.name
                 };
                 setCurrentWeather(currentWeatherData);
+            } catch (error) {
+                console.error('Error fetching weather data:', error);
+            }
+        };
 
+        async function fetchWeatherForecast() {
+            try {
                 // Fetch 5-day forecast data based on user's location
                 const forecastResponse = await axios.get(
                     `https://api.openweathermap.org/data/2.5/forecast?lat=${location?.latitude}&lon=${location?.longitude}&units=metric&appid=${API_KEY}`
@@ -76,7 +82,8 @@ export default function WeatherWidget() {
             }
         };
 
-        fetchWeatherData();
+        fetchCurrentWeather();
+        fetchWeatherForecast();
     }, [location]);
 
   return (

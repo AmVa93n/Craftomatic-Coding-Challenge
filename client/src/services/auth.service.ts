@@ -21,11 +21,13 @@ class AuthService {
     });
   }
 
-  async login(requestBody: object) {
+  // Send a POST request to the server to log in the user
+  async login(requestBody: object) { 
     return this.api.post("/login", requestBody);
   };
 
-  async verify() {
+  // Send a GET request to the server to verify the user's JWT token
+  async verify() { 
     return this.api.get("/verify");
   };
 }

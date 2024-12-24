@@ -53,11 +53,11 @@
 }
 
 /* Responsive for mobile screens */
-@media (max-width: 768px) {
+@media (max-width: 940px) {
 
     .weather-widget {
         padding: 10px;
-        width: 90%;
+        max-width: 95%;
     }
 
     .forecast-tab {

@@ -8,7 +8,7 @@ const { db } = require('./jsondb.config');
 
 io.on('connection', (socket) => {
 
-    // listen for the event 'online' (user stats the app)
+    // listen for the event 'online' (user starts the app)
     socket.on('online', async (user) => {
         console.log(`${user.username} connected`);
         socket.join(user.id); // join the room identified by user id
@@ -21,11 +21,11 @@ io.on('connection', (socket) => {
                 const messagesInChat = messages.filter(message => message.chatId === chat.id) // filter only the messages that belong to the chat
                 return {...chat, messages: messagesInChat}; // add the messages of each chat to the chat object
             });
-            io.to(user.id).emit('getChats', chats); // emit the event 'getChats' to the user
+            io.to(user.id).emit('getChats', chats); // send the chats data to the user
             
             const users = await db.getData('/users')
             const usersWithoutSelf = users.filter(u => u.id !== user.id); // get all users except the current user
-            io.to(user.id).emit('getUsers', usersWithoutSelf); // emit the event 'getUsers' to the user
+            io.to(user.id).emit('getUsers', usersWithoutSelf); // send the users data to the user
         } catch (error) {
             console.log(error);
         }

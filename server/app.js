@@ -9,7 +9,7 @@ const { isAuthenticated } = require("./jwt.middleware");
 const { db } = require("./config/jsondb.config");
 
 app.post('/login', async (req, res, next) => {
-    const { email, password } = req.body;
+    const { email, password } = req.body; // Get the email and password from the request body
 
     try {
         // Check the database if a user with the provided credentials exists

@@ -57,7 +57,7 @@
     .weather-day {
         padding: 5px;
         overflow: auto;
-        gap: 5px;
+        justify-content: space-evenly;
     }
 
     .weather-entry {

@@ -8,7 +8,7 @@ module.exports = (app) => {
   app.set("trust proxy", 1);
 
   app.use(
-    cors({
+    cors({ // allow requests from the client app
       origin: [process.env.ORIGIN || "http://localhost:5173"],
     })
   );

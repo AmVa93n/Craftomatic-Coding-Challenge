@@ -8,7 +8,7 @@ import { useState } from 'react';
 
 function App() {
   const { user } = useAuth();
-  const [selectedPage, setSelectedPage] = useState('Live Chat + Auth');
+  const [selectedPage, setSelectedPage] = useState('Live Chat + Auth'); // State to store the selected page
   const pages = ['Live Chat + Auth', 'Device Tracking Map', 'Weather Widget'];
 
   return (
